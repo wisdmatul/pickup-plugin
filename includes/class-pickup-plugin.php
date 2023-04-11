@@ -176,11 +176,11 @@ class Pickup_Plugin {
 		//To make column sortable
 		$this->loader->add_filter('manage_edit-store_sortable_columns', $plugin_admin, 'make_store_list_sortable');
 
-		//To send order confirmation mail with store details and pickup date
+		// //To send order confirmation mail with store details and pickup date
 		$this->loader->add_filter('manage_edit-store_sortable_columns', $plugin_admin, 'send_order_mail', 10,2);
 
 		//To save order details
-		$this->loader->add_action('woocommerce_checkout_create_order', $plugin_admin, 'save_order');
+		$this->loader->add_action('woocommerce_checkout_create_order', $plugin_admin, 'order_save');
 
 		//To hide checkout fields when pickup option selected
 		$this->loader->add_action( 'wp_head', $plugin_admin, 'pickup_local', 999 );
@@ -204,6 +204,9 @@ class Pickup_Plugin {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+		//To display custom fields on checkout page
+		$this->loader->add_action( 'woocommerce_review_order_before_payment', $plugin_public, 'display_options_store' );
 
 	}
 

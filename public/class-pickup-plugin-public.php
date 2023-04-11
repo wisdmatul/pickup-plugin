@@ -100,4 +100,43 @@ class Pickup_Plugin_Public {
 
 	}
 
+	//Callback to add_shortcode 
+	function display_options_store()
+	{
+		$stores = get_posts(array(
+			'post_type' => 'store',
+			'post_status' => 'publish',
+			'posts_per_page' => -1,
+		));
+
+		$store_data = array();
+
+		foreach ($stores as $store)
+		{
+			$store_name = get_post_meta($store->ID, '_store_name', true);
+			$store_address = get_post_meta($store->ID, '_store_address', true);
+			$contact_info = get_post_meta($store->ID, '_contact_info', true);
+
+			$store_data[] = $store_name . "," . $store_address . "," . $contact_info;
+		}
+
+		// Set minimum allowed date for pickup date field
+		$min_date = date('Y-m-d', strtotime('+1 day'));  // Set minimum date to tomorrow
+
+		$pickup_date_field = '<label for="pickup_date"><h2>Pickup Date</h2></label>
+                          <input type="date" name="pickup_date" id="pickup_date" min="' . $min_date . '" required>';
+
+		$options = 'Select Store';
+		foreach ($store_data as $store)
+		{
+			$options .= '<option value="' . $store . '">' . $store . '</option>';
+		}
+
+		$var =  '<form>' . $pickup_date_field . '<br><br>
+            <label for="store_options"><h2>Select Store</h2></label>
+            <select name="store_options">' . $options . '</select>
+            </form>';
+
+			echo $var;
+	}
 }

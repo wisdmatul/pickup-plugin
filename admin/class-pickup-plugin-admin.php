@@ -124,7 +124,7 @@ class Pickup_Plugin_Admin {
 	{
 		add_meta_box(
 			'store_information',
-			__('Store Information', 'pickup'),
+			__('Store Information', 'pickup_plugin'),
 			array($this,'store_information_callback'),
 			'store',
 			'normal',
@@ -236,17 +236,16 @@ class Pickup_Plugin_Admin {
 	public function send_order_mail()
 	{
 		// Get pickup date and selected store from POST data
-		if (isset($_POST['pickup_date']) && !empty($_POST['pickup_date']))
-		{
+		if (isset($_POST['pickup_date']) && !empty($_POST['pickup_date'])) {
 			$pickup_date = sanitize_text_field($_POST['pickup_date']);
 		}
 
-		if (isset($_POST['store_options']) && !empty($_POST['store_options']))
-		{
-			$store_options = sanitize_text_field($_POST['store_options']);
+		if (isset($_POST['store_options']) && !empty($_POST['store_options'])) {
+			$selected_store = sanitize_text_field($_POST['store_options']);
 		}
 
 		// Send confirmation email
+		
 		$message = '<h2>Store Pickup Details</h2>';
 		$formatted_date = date('d-m-Y', strtotime($pickup_date)); // format date as dd-mm-yyyy
 
